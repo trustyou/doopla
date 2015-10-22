@@ -61,7 +61,7 @@ setup(
 	license=read("LICENSE"),
 	zip_safe=False,
 	keywords='doopla',
-	packages=['doopla'],
+	packages=['doopla',],
 	classifiers=[
 		'Development Status :: 2 - Pre-Alpha',
 		'Intended Audience :: Developers',
@@ -74,7 +74,7 @@ setup(
 		'Programming Language :: Python :: Implementation :: CPython',
 		'Programming Language :: Python :: Implementation :: PyPy'
 	],
-	py_modules=["doopla"],
+	py_modules=['command'],
 	entry_points={
 		'console_scripts': [
 			"doopla = command:main"
