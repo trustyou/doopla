@@ -67,7 +67,7 @@ You can also add `2>/dev/null` if you want to shut down the HTTPS certificate wa
 Screenshot
 ----------
 
-![alt text](https://www.dropbox.com/s/at10xpaut2xz2iw/sample.png)
+![alt text](https://www.dropbox.com/s/at10xpaut2xz2iw/sample.png?raw=1)
 
 
 
