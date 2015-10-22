@@ -37,7 +37,7 @@ Two options for installing:
 
 Usage
 -----
-Before using `doopla` please create a file in your home directory called `doopla` and add
+Before using `doopla` please create a file in your home directory called `.doopla` and add
 the follwoing:
 
 
