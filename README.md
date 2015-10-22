@@ -27,6 +27,7 @@ Install
 Two options for installing:
 
 *Via Pip+Git:*
+
     pip install git+ssh://git@stash.trustyou.com:7999/util/doopla.git@master
 
 *git clone and setup.py*:
