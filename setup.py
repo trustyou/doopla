@@ -51,7 +51,7 @@ def read(fname):
 
 setup(
 	name='doopla',
-	version="0.1.0",
+	version=__version__,
 	description='A Python script to fetch the output of fail tasks from ours Hadoop clusters',
 	long_description=read("README.md"),
 	author='Miguel Cabrera',

@@ -26,7 +26,7 @@ import ConfigParser
 import os
 
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Miguel Cabrera"
 __license__ = "MIT"
 
@@ -42,7 +42,6 @@ def read_config():
 		exit(-1)
 
 	return config
-
 
 
 def print_output(string):
