@@ -1,9 +1,9 @@
 doopla
 ===============================
 H(ad)oopla!
-A Python script to fetch the output of fail tasks from ours Hadoop clusters. It scraps
+A Python script to fetch the output of failed Python Hadoop streaming jobs. It scraps
 the hadoop web interface and gets a random failed mapper and reducer task. It outputs it with
-code highlighting for easy reading.
+code highlighting for easy reading. It has been tested only with `Version: 0.20` of Hadoop.
 
     doopla -h
 
@@ -26,13 +26,13 @@ Install
 ------
 Two options for installing:
 
-*Via Pip+Git:*
+*Via Pip::*
 
-    pip install git+ssh://git@stash.trustyou.com:7999/util/doopla.git@master
+    pip install doopla
 
 *git clone and setup.py*:
 
-    git clone ssh://git@stash.trustyou.com:7999/util/doopla.git
+    git clone git@github.com:trustyou/doopla.git
     cd doopla
     python setup.py install
 
@@ -82,6 +82,10 @@ that can be improved.
 Requirements
 ------------
 - Python >= 2.6 or >= 3.3
+- Colorama
+- BeautifulSoup
+- Requests
+- Pygments
 
 License
 -------
