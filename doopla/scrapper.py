@@ -31,7 +31,7 @@ class Scrapper(object):
 		self._auth = HTTPBasicAuth(user, passwd)
 		self._hadoop_user = hadoop_user
 		self._web_ui_url = web_ui_url
-		print(self._web_ui_url)
+
 		self._jobtracker_url = "{}/jobtracker.jsp".format(self._web_ui_url)
 		self._jobdetail_template = "{}/jobdetails.jsp?jobid=".format(self._web_ui_url) + "{}"
 
