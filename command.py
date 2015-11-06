@@ -18,12 +18,12 @@ from doopla.scrapper import Scrapper, NoJobsForUser
 from colorama import init
 from colorama import Fore, Back, Style
 
-import pygments
 from pygments import highlight
 from pygments.lexers import PythonTracebackLexer
 from pygments.formatters import TerminalFormatter
 
-import ConfigParser, os
+import ConfigParser
+import os
 
 
 __version__ = "0.1.0"
@@ -59,8 +59,9 @@ def main():
 	user = config.get('main', "hadoop_user")
 	http_user = config.get('main', "http_user")
 	http_passwd = config.get('main', "http_password")
+	webui_url = config.get('main', "webui_url")
 
-	sc = Scrapper(user, http_user, http_passwd)
+	sc = Scrapper(webui_url, user, http_user, http_passwd)
 
 	try:
 		mapper, reducer = sc.fetch_output(args['<jobid>'])

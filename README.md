@@ -43,12 +43,12 @@ the follwoing:
 
 
     [main]
-    hadoop_user: <YOUR_HADOOP_USER>
-    http_user: trustyou
+    hadoop_user: <HADOOP_USER>
+    hadoop_url: <HADOOP_URL>
+    http_user: <USER>
     http_password: <THE_PASSWORD>
 
-Replace `hadoop_user` for your hadoop user (or the one you want to check) and the  `http_password`
-for the http password you normally use to log into the web interface.
+Replace `HADOOP_URL` for the HTTP URL of your the Hadoop Web interface. Replace `HADOOP_USER` for your hadoop user (or the one you want to check) and the  `HTTP_PASSWORD` for the http password you normally use to log into the web interface.
 
 The is simple a mather of executing
 

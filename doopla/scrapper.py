@@ -5,11 +5,6 @@ import random
 from requests.auth import HTTPBasicAuth
 
 
-VM1_URL = "https://vm1.trustyou.com:5030"
-JOBTRACKER_URL = "{}/jobtracker.jsp".format(VM1_URL)
-JOBDETAIL_TEMPLATE = "{}/jobdetails.jsp?jobid=".format(VM1_URL) + "{}"
-
-
 #  Helper methods for BS4
 def html_table_to_dict_list(table, only_text=False):
 	items = []
@@ -31,19 +26,23 @@ class Scrapper(object):
 	""" Main class for Doopla
 	"""
 
-	def __init__(self, hadoop_user, user, passwd):
+	def __init__(self, web_ui_url, hadoop_user, user, passwd):
 		super(Scrapper, self).__init__()
-		self.auth = HTTPBasicAuth(user, passwd)
-		self.hadoop_user = hadoop_user
+		self._auth = HTTPBasicAuth(user, passwd)
+		self._hadoop_user = hadoop_user
+		self._web_ui_url = web_ui_url
+		print(self._web_ui_url)
+		self._jobtracker_url = "{}/jobtracker.jsp".format(self._web_ui_url)
+		self._jobdetail_template = "{}/jobdetails.jsp?jobid=".format(self._web_ui_url) + "{}"
 
 	def fetch_html(self, url):
-		r = requests.get(url, verify=False, auth=self.auth)
+		r = requests.get(url, verify=False, auth=self._auth)
 		soup = bs4.BeautifulSoup(r.text, 'html.parser')
 		return soup
 
 	def scrap_last_failed_job_id(self, ):
 		"""Get's the last failed job id for the user"""
-		html = self.fetch_html(JOBTRACKER_URL)
+		html = self.fetch_html(self._jobtracker_url)
 		table = html.find(id='failed_jobs').find_next_siblings()[0]
 		jobs = []
 
@@ -58,7 +57,7 @@ class Scrapper(object):
 
 		target = None
 		for j in jobs[::-1]:
-			if j['user'] == self.hadoop_user:
+			if j['user'] == self._hadoop_user:
 				target = j['jobid']
 				break
 
@@ -69,7 +68,7 @@ class Scrapper(object):
 
 		def build_url(jobid, kind, cause):
 			template = "{}/jobfailures.jsp?jobid={}&kind={}&cause={}"
-			return template.format(VM1_URL, jobid, kind, cause)
+			return template.format(self._web_ui_url, jobid, kind, cause)
 
 		err_url_map = build_url(jobid, kind="map", cause="failed")
 		err_url_red = build_url(jobid, kind="reduce", cause="failed")
