@@ -3,7 +3,8 @@ doopla
 H(ad)oopla!
 A Python script to fetch the output of failed Python Hadoop streaming jobs. It scraps
 the hadoop web interface and gets a random failed mapper and reducer task. It outputs it with
-code highlighting for easy reading. It has been tested only with `Version: 0.20` of Hadoop.
+code highlighting for easy reading.
+
 
     doopla -h
 
@@ -43,8 +44,9 @@ the follwoing:
 
 
     [main]
+    hadoop_version: <HADOOP_VERSION> # either 1 or 2 - defaults to 2
     hadoop_user: <HADOOP_USER>
-    hadoop_url: <HADOOP_URL>
+    hadoop_url: <HADOOP_URL> # For Hadoop 2.x use the Job history URL
     http_user: <USER>
     http_password: <THE_PASSWORD>
 

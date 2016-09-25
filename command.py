@@ -14,7 +14,7 @@ Options:
 
 from __future__ import unicode_literals, print_function
 from docopt import docopt
-from doopla.scrapper import Scrapper, NoJobsForUser
+from doopla.scrapper import ScrapperHadoopV1, ScrapperHadoopV2, NoJobsForUser
 from colorama import init
 from colorama import Fore, Back, Style
 
@@ -26,7 +26,7 @@ import ConfigParser
 import os
 
 
-__version__ = "0.2.2"
+__version__ = "0.3.0"
 __author__ = "Miguel Cabrera"
 __license__ = "MIT"
 
@@ -59,8 +59,15 @@ def main():
 	http_user = config.get('main', "http_user")
 	http_passwd = config.get('main', "http_password")
 	webui_url = config.get('main', "webui_url")
+	hadoop_version = config.get('main', 'hadoop_version', '2')
+
+	if hadoop_version == '1':
+		Scrapper = ScrapperHadoopV1
+	else:
+		Scrapper = ScrapperHadoopV2
 
 	sc = Scrapper(webui_url, user, http_user, http_passwd)
+
 
 	try:
 		mapper, reducer = sc.fetch_output(args['<jobid>'])
