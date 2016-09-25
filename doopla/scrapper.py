@@ -1,6 +1,9 @@
 import requests
 import bs4
 import random
+import re
+import json
+from collections import namedtuple
 
 from requests.auth import HTTPBasicAuth
 
@@ -38,6 +41,7 @@ class Scrapper(object):
 	def fetch_html(self, url):
 		r = requests.get(url, verify=False, auth=self._auth)
 		soup = bs4.BeautifulSoup(r.text, 'html.parser')
+
 		return soup
 
 	def scrap_last_failed_job_id(self, ):
@@ -122,7 +126,7 @@ class Scrapper(object):
 		html = self.fetch_html(url)
 		output = html.find_all('pre')
 		stderr, stdout = None, None
-		print(url)
+
 		if len(output) >= 2:
 			stdout = clean_output(output[0].get_text())
 			stderr = clean_output(output[1].get_text())
@@ -140,3 +144,42 @@ class Scrapper(object):
 		print("Obtaining failing output for: {}".format(jobid))
 
 		return self.scrap_failure_output(jobid)
+
+__job_descriptor_fields = [
+	'submit_time', 'start_time', 'end_time', 'job_url', 'job_name',
+	'user', 'queue', 'state', 'map_total', 'map_completed', 'red_total', 'red_completed'
+]
+JobDescriptor = namedtuple('JobDescriptor', __job_descriptor_fields)
+
+
+class ScrapperHadoop2(Scrapper):
+
+	def __init__(self, web_ui_url, hadoop_user, user, passwd):
+		""" For Hadoop 2 (HDP) we use JobHistory instead """
+		super(ScrapperHadoop2, self).__init__(web_ui_url, hadoop_user, user, passwd)
+
+		self._job_history_url = "{}/jobhistory".format(self._web_ui_url)
+		self._job_detail_template = "{}/job/".format(self._job_history_url) + "{}"
+
+	def scrap_last_failed_job_id(self, ):
+		"""Get's the last failed job id for the user"""
+		html = self.fetch_html(self._job_history_url)
+		table = html.find(id='jobs')
+
+		script = table.find('thead').find_next_siblings()[0]
+		script = script.get_text().strip()
+
+		job_data_re = re.compile('var jobsTableData=(.*)', re.DOTALL)
+		m = job_data_re.match(script)
+		jobs = json.loads(m.groups()[0])
+
+		# let's find the job for the user:
+
+		target = None
+
+		for job in jobs:
+			j = JobDescriptor._make(job)
+			if j.user == self._hadoop_user and j.state == 'FAILED':
+				target = j.job_url
+
+		return target
