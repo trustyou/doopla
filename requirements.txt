@@ -1,0 +1,5 @@
+docopt
+requests>=1.2.7
+beautifulsoup4>=4.3.2
+pygments
+colorama
