@@ -4,14 +4,8 @@ import sys
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
-
-REQUIRES = [
-	'docopt',
-	'requests>=1.2.7',
-	'beautifulsoup4>=4.3.2',
-	'pygments',
-	'colorama'
-]
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
 
 class PyTest(TestCommand):
 	def finalize_options(self):
@@ -57,7 +51,7 @@ setup(
 	author='Miguel Cabrera',
 	author_email='mfcabrera@gmail.com',
 	url='https://github.com/trustyou/doopla',
-	install_requires=REQUIRES,
+	install_requires=requirements,
 	license=read("LICENSE"),
 	zip_safe=False,
 	keywords='doopla',
